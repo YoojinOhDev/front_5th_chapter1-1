@@ -33,17 +33,19 @@
   `},$=()=>`<div class="space-y-4">
     ${w.sort((e,o)=>o.id-e.id).map(e=>T(e)).join("")}
   </div>
-  `,f=()=>`
+  `,S=()=>`
+    <div class="mb-4 bg-white rounded-lg shadow p-4" id="write-post">
+          <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
+          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
+    </div>
+  `,f=()=>{const t=a==null?void 0:a.username;return`
   <div class="bg-gray-100 min-h-screen flex justify-center">
     <div class="max-w-md w-full">
       ${x()}
       ${v()}
 
       <main class="p-4">
-        <div class="mb-4 bg-white rounded-lg shadow p-4" id="write-post">
-          <textarea class="w-full p-2 border rounded" placeholder="무슨 생각을 하고 계신가요?"></textarea>
-          <button class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">게시</button>
-        </div>
+        ${t?S():""}
         ${$()}
       </main>
 
@@ -52,7 +54,7 @@
       </footer>
     </div>
   </div>
-`;function S(t){t.preventDefault();const e=new FormData(t.target),o=e.get("email")||"",s=e.get("username"),n=e.get("bio")||"";return s?(p({username:s,email:o,bio:n}),c(),!0):!1}function E(){const t=document.getElementById(l.LOGIN_FORM);t==null||t.addEventListener("submit",e=>{S(e)&&i()})}const F=()=>`
+`};function E(t){t.preventDefault();const e=new FormData(t.target),o=e.get("email")||"",s=e.get("username"),n=e.get("bio")||"";return s?(p({username:s,email:o,bio:n}),c(),!0):!1}function F(){const t=document.getElementById(l.LOGIN_FORM);t==null||t.addEventListener("submit",e=>{E(e)&&i()})}const N=()=>`
   <div>
    <form id=${l.LOGIN_FORM}>
         <div class="mb-4">
@@ -72,16 +74,16 @@
         <button class="bg-green-500 text-white px-4 py-2 rounded font-bold">새 계정 만들기</button>
       </div>
       </div>
-  `,N=()=>`
+  `,U=()=>`
    <button id=${l.LOGOUT_BUTTON} class="w-full mt-4 bg-blue-600 text-white p-2 rounded font-bold">로그아웃</button>
   `,g=()=>`
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">항해플러스</h1>
-      ${a?N():F()}
+      ${a?U():N()}
     </div>
   </main>
-`,U=()=>`
+`,D=()=>`
   <main class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full text-center" style="max-width: 480px">
       <h1 class="text-2xl font-bold text-blue-600 mb-4">항해플러스</h1>
@@ -95,7 +97,7 @@
       </a>
     </div>
   </main>
-`;function D(t){t.preventDefault();const e=new FormData(t.target),o=e.get("email"),s=e.get("username"),n=e.get("bio");p({username:s,email:o,bio:n}),c()}function A(){const t=document.getElementById(l.PROFILE_FORM);t==null||t.addEventListener("submit",e=>{D(e),i()})}function u(t){window.history.pushState({},"",t),i()}const b=()=>{const t=a;if(!t)return u("/login");const{username:e,email:o,bio:s}=t;return`
+`;function A(t){t.preventDefault();const e=new FormData(t.target),o=e.get("email"),s=e.get("username"),n=e.get("bio");p({username:s,email:o,bio:n}),c()}function _(){const t=document.getElementById(l.PROFILE_FORM);t==null||t.addEventListener("submit",e=>{A(e),i()})}function u(t){window.history.pushState({},"",t),i()}const b=()=>{const t=a;if(!t)return u("/login");const{username:e,email:o,bio:s}=t;return`
   <div>
     <div class="bg-gray-100 min-h-screen flex justify-center">
       <div class="max-w-md w-full">
@@ -164,4 +166,4 @@
       </div>
     </div>
   </div>
-`};function _(t){let e=t.split("/").pop();return e=e.split("?")[0],`/${e}`}function B(){const t=y();document.querySelectorAll("nav li a").forEach(o=>{_(o.href)===t?(o.classList.remove("text-gray-600"),o.classList.add("text-blue-600"),o.classList.add("font-bold")):(o.classList.remove("font-bold"),o.classList.remove("text-blue-600"),o.classList.add("text-gray-600"))})}function R(){const t=document.getElementById("write-post"),e=t==null?void 0:t.querySelector("textarea"),o=t==null?void 0:t.querySelector("button");!e||!o||o.addEventListener("click",()=>{const s=e.value,n={id:new Date().getTime(),author:a==null?void 0:a.username,createdAt:"방금",content:s};w.push(n),i()})}let a=null;function c(){a=L()}function y(){const t="/front-5th-chapter1-1";let e=window.location.pathname;const o=window.location.hash;return o.includes("#")&&(e=o.slice(1)),e.replace(t,"")}function M(){const t=y(),e=a;switch(t){case"/":return f();case"/login":return e?(window.history.pushState({},"","/"),f()):g();case"/profile":return e?(window.history.pushState({},"","/profile"),b()):e?b():g();default:return U()}}function j(t){document.body.innerHTML=`<div id="root">${t}</div>`}function G(){document.querySelector("#root").addEventListener("click",t=>{t.target.tagName==="A"&&(t.preventDefault(),u(t.target.href)),t.target.id===l.LOGOUT_BUTTON&&(O(),c(),u("/login"))})}function H(){G(),E(),A(),B(),R()}function i(){c(),j(M()),H()}window.addEventListener("popstate",i);window.addEventListener("hashchange",i);i();
+`};function B(t){let e=t.split("/").pop();return e=e.split("?")[0],`/${e}`}function R(){const t=y();document.querySelectorAll("nav li a").forEach(o=>{B(o.href)===t?(o.classList.remove("text-gray-600"),o.classList.add("text-blue-600"),o.classList.add("font-bold")):(o.classList.remove("font-bold"),o.classList.remove("text-blue-600"),o.classList.add("text-gray-600"))})}function M(){const t=document.getElementById("write-post"),e=t==null?void 0:t.querySelector("textarea"),o=t==null?void 0:t.querySelector("button");!e||!o||o.addEventListener("click",()=>{const s=e.value,n={id:new Date().getTime(),author:a==null?void 0:a.username,createdAt:"방금",content:s};w.push(n),i()})}let a=null;function c(){a=L()}function y(){const t="/front-5th-chapter1-1";let e=window.location.pathname;const o=window.location.hash;return o.includes("#")&&(e=o.slice(1)),console.log("locationPath",e),e.replace(t,"")}function j(){const t=y();console.log("path",t);const e=a;switch(t){case"/":return f();case"/login":return e?(window.history.pushState({},"","/"),f()):g();case"/profile":return e?(window.history.pushState({},"","/profile"),b()):e?b():g();default:return D()}}function G(t){document.body.innerHTML=`<div id="root">${t}</div>`}function H(){document.querySelector("#root").addEventListener("click",t=>{t.target.tagName==="A"&&(t.preventDefault(),u(t.target.href)),t.target.id===l.LOGOUT_BUTTON&&(O(),c(),u("/login"))})}function q(){H(),F(),_(),R(),M()}function i(){c(),G(j()),q()}window.addEventListener("popstate",i);window.addEventListener("hashchange",i);i();
